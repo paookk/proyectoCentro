@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Centro de Adopciones</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500&family=Pacifico&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../static/style.css" th:href="@{/style.css}">
+<body>
+<div class="esquina-izq"></div>
+<div class="esquina-der"></div>
+
+<div class="page-wrapper">
+    <h2 class="top-title">Centro de Adopciones</h2>
+    <h1 class="main-title">🐾 Tres Gatitos 🐾</h1>
+
+    <div class="login-card">
+        <h2>INICIO DE SESIÓN</h2>
+        <form action="/login" method="post">
+            <p th:if="${error}" th:text="${error}" style="color: red;"></p>
+
+            <div class="form-row">
+                <div class="input-group">
+                    <label>NOMBRE</label>
+                    <input type="text" name="nombre" required>
+                </div>
+                <div class="input-group">
+                    <label>APELLIDO</label>
+                    <input type="text" name="apellido" required>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="input-group" style="flex: 1.5;">
+                    <label>USERNAME</label>
+                    <input type="text" name="username" required>
+                </div>
+                <div class="input-group" style="flex: 1;">
+                    <label>ID</label>
+                    <input type="text" name="id" required>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="input-group">
+                    <label>CONTRASEÑA</label>
+                    <input type="password" name="password" required>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-entrar">Acceder</button>
+        </form>
+        <!-- Nuevo enlace de registro -->
+        <a href="/registro" class="link-registro">Registrarse</a>
+    </div>
+</div>
+</body>
+</html>

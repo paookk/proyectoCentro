@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Solicitudes de Adopción</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../static/style.css" th:href="@{/style.css}">
+</head>
+<body class="admin-body">
+
+<header class="admin-header" style="display: flex; justify-content: space-between;">
+    <span>Centro de Adopción | Admin</span>
+    <a href="/" style="color: white; text-decoration: none;">Cerrar Sesión</a>
+</header>
+
+<div class="admin-container" style="max-width: 1000px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h2 class="admin-section-title" style="margin:0;">➔ Solicitudes de Adopción Recibidas</h2>
+        <a th:href="@{/admin/modificar}" style="color: #5850c9; text-decoration: underline;">Volver al panel</a>
+    </div>
+
+    <div class="login-card" style="width: 100%; border: 4px solid #5850c9; padding: 25px;">
+        <table class="admin-table">
+            <thead>
+            <tr>
+                <th>N° Solicitud</th>
+                <th>ID Adoptante</th>
+                <th>ID Mascota</th>
+                <th>Fecha</th>
+                <th>Estado</th>
+                <th>Acción</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="s : ${solicitudes}">
+                <td th:text="${s.idAdopcion}" style="font-weight: 500;">1</td>
+                <td th:text="${s.idAdoptante}">3</td>
+                <td th:text="${s.idMascota}">5</td>
+                <td th:text="${s.fecha}">2026-10-20</td>
+                <td>
+                    <!-- Pone el texto verde si ya se aprobó, o naranja si está pendiente -->
+                    <span th:text="${s.estadoSolicitud}"
+                          th:style="${s.estadoSolicitud == 'Aprobada' ? 'color: #2e8b57; font-weight: bold;' : 'color: #d97706; font-weight: 500;'}">
+                                Pendiente
+                            </span>
+                </td>
+                <td>
+                    <!-- Solo muestra el botón si NO está aprobada aún -->
+                    <a th:if="${s.estadoSolicitud != 'Aprobada'}"
+                       th:href="@{/admin/aprobarSolicitud(id=${s.idAdopcion})}"
+                       class="btn-entrar"
+                       style="padding: 6px 15px; font-size: 0.9rem; text-decoration: none; border-radius: 4px;">
+                        Aprobar
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>
