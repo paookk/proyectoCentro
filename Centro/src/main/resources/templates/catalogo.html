@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Catálogo de Adopciones</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&family=Pacifico&display=swap" rel="stylesheet">
+    <!-- El doble enlace para que funcione la vista previa de IntelliJ y también el servidor -->
+    <link rel="stylesheet" href="../static/style.css" th:href="@{/style.css}">
+</head>
+<body class="catalogo-body">
+
+<!-- Barra superior rosa -->
+<header class="catalogo-header">
+    <span>🐾 Tres Gatitos | Catálogo de Adopciones</span>
+    <a href="/" style="color: white; font-size: 1rem; text-decoration: none; border: 2px solid white; padding: 6px 18px; border-radius: 20px; transition: 0.2s;" onmouseover="this.style.backgroundColor='white'; this.style.color='#ff4d6d';" onmouseout="this.style.backgroundColor='transparent'; this.style.color='white';">Cerrar Sesión</a>
+</header>
+
+<div class="catalogo-container">
+    <h1 class="main-title" style="font-size: 3.5rem; text-align: center; color: #ff4d6d; margin-top: 10px;">Conoce a nuestros peluditos</h1>
+    <p style="text-align: center; font-size: 1.2rem; color: #555; margin-bottom: 40px;">Desliza hacia abajo para ver a todos los que buscan un hogar.</p>
+
+    <!-- Contenedor Grid (Cuadrícula) para las mascotas -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 35px;">
+
+        <!-- Este bloque se repetirá automáticamente por cada mascota en tu MySQL -->
+        <div th:each="mascota : ${mascotas}" style="background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.08); border: 3px solid #ffb3c1; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
+
+            <!-- Imagen de relleno genérica en rosa -->
+            <div style="width: 100%; height: 210px; background-color: #ffe5ec; display: flex; justify-content: center; align-items: center; font-size: 5rem;">
+                🐱
+            </div>
+
+            <div style="padding: 25px;">
+                <h2 th:text="${mascota.nombre}" style="margin: 0 0 15px 0; color: #ff4d6d; font-family: 'Fredoka'; font-size: 1.8rem;">Nombre Mascota</h2>
+
+                <p style="margin: 6px 0; color: #555; font-size: 1.1rem;"><strong>Raza:</strong> <span th:text="${mascota.raza}">Raza</span></p>
+                <p style="margin: 6px 0; color: #555; font-size: 1.1rem;"><strong>Edad:</strong> <span th:text="${mascota.edad}">Edad</span></p>
+                <p style="margin: 6px 0; color: #555; font-size: 1.1rem;"><strong>Sexo:</strong> <span th:text="${mascota.sexo}">Sexo</span></p>
+
+                <div style="margin-top: 20px; text-align: center;">
+                    <span th:text="${mascota.estadoAdopcion}" style="background-color: #ff9eb5; color: white; padding: 6px 18px; border-radius: 20px; font-weight: 500; font-size: 1rem; box-shadow: 0 2px 4px rgba(255, 77, 109, 0.2);">Estado</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+</body>
+</html>

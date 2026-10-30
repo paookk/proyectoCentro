@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Panel de Administración</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../static/style.css" th:href="@{/style.css}">
+</head>
+<body class="admin-body">
+
+<!-- Barra superior -->
+<header class="admin-header">
+    Centro de Adopción | Admin
+</header>
+
+<div class="admin-container">
+    <!-- Mensaje de bienvenida inyectado por Java -->
+    <h1 class="admin-welcome">
+        BIENVENIDO/A,<br>
+        <span th:text="${nombre} + ' ' + ${apellido}">[Nombre] [Apellido]</span>
+    </h1>
+
+    <h2 class="admin-section-title">➔ Gestión del Sistema</h2>
+    <!-- Cuadrícula de tarjetas -->
+    <div class="admin-grid">
+
+        <!-- Tarjeta 1: Modificar (Va al catálogo de edición) -->
+        <a href="/admin/modificar" style="text-decoration: none; color: inherit;">
+            <div class="admin-card">
+                <div class="card-icon-box">
+                    <span class="card-title" style="color: #a83232;">Modificar</span>
+                    <div class="card-icon">⚙️</div>
+                </div>
+                <div class="card-text">Registrar, editar y gestionar el catálogo de animales en adopción</div>
+            </div>
+        </a>
+
+        <!-- Tarjeta 2: Solicitudes -->
+        <a href="/admin/solicitudes" style="text-decoration: none; color: inherit;">
+            <div class="admin-card">
+                <div class="card-icon-box">
+                    <span class="card-title" style="color: #4a2b7a;">Solicitudes</span>
+                    <div class="card-icon">💌</div>
+                </div>
+                <div class="card-text">Revisar y aprobar las solicitudes de adopción recibidas</div>
+            </div>
+        </a>
+
+        <!-- Tarjeta 3: Adoptantes -->
+        <a href="/admin/adoptantes" style="text-decoration: none; color: inherit;">
+            <div class="admin-card">
+                <div class="card-icon-box">
+                    <span class="card-title" style="color: #a83232;">Adoptantes</span>
+                    <div class="card-icon">👤</div>
+                </div>
+                <div class="card-text">Consultar la información y contactos de los usuarios registrados</div>
+            </div>
+        </a>
+
+        <!-- Tarjeta 4: Estadísticas -->
+        <a href="/admin/estadisticas" style="text-decoration: none; color: inherit;">
+            <div class="admin-card">
+                <div class="card-icon-box">
+                    <span class="card-title" style="color: #4a2b7a;">Estadísticas</span>
+                    <div class="card-icon">📊</div>
+                </div>
+                <div class="card-text">Ver estadísticas de adopciones y estados de la base de datos</div>
+            </div>
+        </a>
+    </div>
+</div>
+
+<!-- Figura de la esquina inferior derecha con el botón -->
+<div class="admin-footer-shape">
+    <a href="/" class="btn-cerrar">Cerrar Sesión</a>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Registro - Tres Gatitos</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500&family=Pacifico&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../static/style.css" th:href="@{/style.css}">
+</head>
+<body>
+<div class="esquina-izq"></div>
+<div class="esquina-der"></div>
+
+<div class="page-wrapper">
+    <h2 class="top-title">Centro de Adopciones</h2>
+    <h1 class="main-title">🐾 Tres Gatitos 🐾</h1>
+
+    <div class="login-card">
+        <h2>CREAR CUENTA</h2>
+        <!-- Ahora enviamos los datos a /guardarUsuario -->
+        <form action="/guardarUsuario" method="post">
+            <p th:if="${error}" th:text="${error}" style="color: red;"></p>
+
+            <div class="form-row">
+                <div class="input-group">
+                    <label>CREA UN USERNAME</label>
+                    <input type="text" name="username" required>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="input-group">
+                    <label>CREA UNA CONTRASEÑA</label>
+                    <input type="password" name="password" required>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-entrar" style="background-color: #ff9eb5;">Registrarme</button>
+        </form>
+        <a href="/" class="link-registro">Volver al inicio de sesión</a>
+    </div>
+</div>
+</body>
+</html>

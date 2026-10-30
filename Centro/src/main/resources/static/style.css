@@ -1,0 +1,290 @@
+body {
+    margin: 0;
+    font-family: 'Fredoka', sans-serif;
+    background-color: #c8b6ff; /* Fondo morado claro */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Triángulos oscuros en las esquinas inferiores */
+.esquina-izq, .esquina-der {
+    position: absolute;
+    bottom: 0;
+    width: 35vw;
+    height: 35vw;
+    background-color: #2b1765;
+    z-index: -1;
+}
+.esquina-izq { left: 0; clip-path: polygon(0 100%, 0 0, 100% 100%); }
+.esquina-der { right: 0; clip-path: polygon(100% 100%, 0 100%, 100% 0); }
+
+.page-wrapper { text-align: center; z-index: 1; }
+
+.top-title {
+    color: white;
+    text-decoration: underline;
+    font-size: 1.8rem;
+    margin-bottom: 5px;
+    font-weight: 400;
+}
+
+.main-title {
+    font-family: 'Pacifico', cursive;
+    color: #3b207e;
+    font-size: 4rem;
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+/* Tarjeta principal */
+.login-card {
+    background-color: white;
+    padding: 30px 40px;
+    border: 6px solid #3b207e;
+    width: 480px;
+    box-sizing: border-box;
+    margin: 0 auto;
+}
+
+.login-card h2 { margin-top: 0; color: #222; font-size: 1.8rem; }
+
+.form-row { display: flex; gap: 20px; margin-bottom: 15px; }
+.input-group { display: flex; flex-direction: column; text-align: left; flex: 1; }
+
+label { font-weight: 500; margin-bottom: 5px; color: #222; }
+input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 8px;
+    border: 3px solid #222;
+    font-family: 'Fredoka', sans-serif;
+    font-size: 1.1rem;
+    outline: none;
+}
+
+/* Botón y enlace */
+.btn-entrar {
+    background-color: #8c9eff;
+    color: #222;
+    font-size: 1.3rem;
+    padding: 10px 30px;
+    border: none;
+    cursor: pointer;
+    margin-top: 15px;
+    font-family: 'Fredoka', sans-serif;
+}
+
+.link-registro {
+    display: block;
+    margin-top: 20px;
+    color: #4a6ee0;
+    text-decoration: underline;
+    font-size: 1.2rem;
+}
+
+/* =========================================
+   ESTILOS EXCLUSIVOS PARA EL PANEL ADMIN
+   ========================================= */
+
+/* Sobrescribimos el fondo y comportamiento general solo para esta pantalla */
+body.admin-body {
+    display: block; /* Evita que todo se centre como en el login */
+    background-color: #fdfafc; /* Fondo rosa/blanco muy clarito */
+    overflow-y: auto;
+}
+
+/* Ocultamos los triángulos de las esquinas del login */
+body.admin-body .esquina-izq,
+body.admin-body .esquina-der {
+    display: none;
+}
+
+/* Barra azul superior */
+.admin-header {
+    background-color: #5850c9;
+    color: white;
+    padding: 12px 30px;
+    font-size: 1.4rem;
+    font-weight: 400;
+}
+
+.admin-container {
+    padding: 30px 50px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* Textos de bienvenida */
+.admin-welcome {
+    font-size: 1.8rem;
+    color: #222;
+    margin-bottom: 40px;
+    line-height: 1.3;
+    font-weight: 500;
+}
+.admin-welcome span {
+    color: #3b207e;
+}
+
+.admin-section-title {
+    font-size: 1.5rem;
+    color: #333;
+    font-weight: 400;
+    margin-bottom: 20px;
+}
+
+/* Grid (Cuadrícula para las tarjetas) */
+.admin-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Dos columnas iguales */
+    gap: 30px; /* Espacio entre tarjetas */
+}
+
+/* 1. Tu tarjeta actual, pero con transition y cursor agregados al final */
+.admin-card {
+    background-color: #d1bbf9;
+    padding: 15px;
+    display: flex;
+    gap: 20px;
+    border-radius: 4px;
+
+    /* Nuevas líneas para la animación: */
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    cursor: pointer; /* Cambia el ratón a una manita */
+}
+
+/* 2. Nuevo bloque: El efecto que ocurre al poner el cursor encima */
+.admin-card:hover {
+    transform: scale(1.05); /* Agranda la tarjeta un 5% */
+    box-shadow: 0px 10px 15px rgba(88, 80, 201, 0.3); /* Agrega una sombra morada suave */
+}
+
+.card-title {
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+    display: block;
+    width: 100%;
+    text-align: center; /* Fuerza centrado del texto */
+}
+
+.card-icon {
+    font-size: 2.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    text-align: center; /* Fuerza centrado del emoji */
+    margin-top: 5px;
+}
+
+/* Texto de la derecha en la tarjeta */
+.card-text {
+    display: flex;
+    align-items: center;
+    font-size: 1.5rem;
+    color: #222;
+    font-weight: 500;
+}
+
+/* Esquina curva inferior y botón */
+.admin-footer-shape {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 250px;
+    height: 120px;
+    background-color: #5850c9;
+    border-top-left-radius: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    z-index: 10;
+}
+
+.btn-cerrar {
+    background-color: white;
+    color: #5850c9;
+    border: 2px solid #5850c9;
+    padding: 8px 18px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin: 0 30px 25px 0;
+}
+
+.btn-cerrar:hover {
+    background-color: #e6e6ff;
+}
+
+/* =========================================
+   ESTILOS EXCLUSIVOS PARA EL CATÁLOGO (USUARIO NORMAL)
+   ========================================= */
+
+body.catalogo-body {
+    display: block; /* ¡Clave! Evita que todo se apachurre a la izquierda */
+    background-color: #fff0f3; /* Fondo rosa ultra clarito */
+    overflow-y: auto;
+    margin: 0;
+}
+
+/* Ocultamos los triángulos del login si llegaran a aparecer */
+body.catalogo-body .esquina-izq,
+body.catalogo-body .esquina-der {
+    display: none;
+}
+
+/* Barra rosa superior de borde a borde */
+.catalogo-header {
+    background-color: #ff4d6d; /* Rosa fuerte y atractivo */
+    color: white;
+    padding: 15px 40px;
+    font-size: 1.4rem;
+    font-weight: 500;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.catalogo-container {
+    padding: 30px 50px;
+    max-width: 1050px;
+    margin: 0 auto;
+}
+
+/* Estilos para la tabla del administrador */
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+.admin-table th, .admin-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #d1bbf9;
+}
+.admin-table th {
+    background-color: #5850c9;
+    color: white;
+    font-weight: 500;
+}
+.admin-table tr:hover { background-color: #f3efff; }
+
+.btn-eliminar {
+    background-color: #ff4d6d;
+    color: white;
+    padding: 5px 12px;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+.btn-eliminar:hover { background-color: #d43b57; }

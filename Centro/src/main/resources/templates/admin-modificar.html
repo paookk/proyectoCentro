@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestión de Mascotas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../static/style.css" th:href="@{/style.css}">
+</head>
+<body class="admin-body">
+
+<header class="admin-header" style="display: flex; justify-content: space-between;">
+    <span>Centro de Adopción | Admin</span>
+    <a href="/" style="color: white; text-decoration: none;">Cerrar Sesión</a>
+</header>
+
+<div class="admin-container" style="max-width: 1100px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h2 class="admin-section-title" style="margin:0;">➔ Gestión del Catálogo de Mascotas</h2>
+        <a href="/admin/modificar" style="color: #5850c9; text-decoration: underline;">Volver al panel</a>
+    </div>
+
+    <!-- Formulario para Agregar Mascota -->
+    <div class="login-card" style="width: 100%; border: 4px solid #5850c9; padding: 25px; margin-bottom: 30px;">
+        <h3 style="margin-top:0; color:#3b207e;">Registrar Nueva Mascota</h3>
+
+        <form action="/admin/guardarMascota" method="post" style="display: flex; flex-wrap: wrap; gap: 15px;">
+            <div class="input-group" style="flex: 1; min-width: 150px;">
+                <label>Nombre</label>
+                <input type="text" name="nombre" required>
+            </div>
+            <div class="input-group" style="flex: 1; min-width: 150px;">
+                <label>Especie</label>
+                <!-- Como hicimos en MySQL: 1 es Gato, 2 es Perro -->
+                <select name="idEspecie" style="padding: 8px; border: 3px solid #222; font-family: 'Fredoka';">
+                    <option value="1">Gato</option>
+                    <option value="2">Perro</option>
+                </select>
+            </div>
+            <div class="input-group" style="flex: 1; min-width: 150px;">
+                <label>Raza</label>
+                <input type="text" name="raza" required>
+            </div>
+            <div class="input-group" style="flex: 1; min-width: 100px;">
+                <label>Edad</label>
+                <input type="text" name="edad" placeholder="Ej: 2 meses" required>
+            </div>
+            <div class="input-group" style="flex: 1; min-width: 100px;">
+                <label>Sexo</label>
+                <select name="sexo" style="padding: 8px; border: 3px solid #222; font-family: 'Fredoka';">
+                    <option value="Macho">Macho</option>
+                    <option value="Hembra">Hembra</option>
+                </select>
+            </div>
+            <div class="input-group" style="flex: 1; min-width: 100px;">
+                <label>Tamaño</label>
+                <input type="text" name="tamano" required>
+            </div>
+            <div class="input-group" style="flex: 1; min-width: 120px;">
+                <label>Estado</label>
+                <input type="text" name="estadoAdopcion" value="Disponible" readonly style="background-color:#eee;">
+            </div>
+
+            <button type="submit" class="btn-entrar" style="margin-top: 25px; height: 45px;">Guardar</button>
+        </form>
+    </div>
+
+    <!-- Tabla de Mascotas -->
+    <table class="admin-table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Especie</th>
+            <th>Raza</th>
+            <th>Edad</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Se repite por cada mascota registrada -->
+        <tr th:each="m : ${mascotas}">
+            <td th:text="${m.idMascota}">1</td>
+            <td th:text="${m.nombre}" style="font-weight: 500;">Michi</td>
+            <!-- Pequeña condición para que muestre el texto en lugar del número -->
+            <td th:text="${m.idEspecie == 1 ? 'Gato' : 'Perro'}">Gato</td>
+            <td th:text="${m.raza}">Mestizo</td>
+            <td th:text="${m.edad}">2 meses</td>
+            <td th:text="${m.estadoAdopcion}">Disponible</td>
+            <td>
+                <!-- Botón para eliminar -->
+                <a th:href="@{/admin/eliminarMascota(id=${m.idMascota})}" class="btn-eliminar" onclick="return confirm('¿Seguro que deseas eliminar este registro?');">Eliminar</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
