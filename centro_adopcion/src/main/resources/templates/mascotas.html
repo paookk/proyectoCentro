@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adopta a tu nuevo mejor amigo</title>
+    <!-- Carga de Tailwind CSS para el diseño rápido y moderno -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#4F46E5', // Indigo 600
+                        secondary: '#10B981', // Emerald 500
+                        accent: '#F59E0B' // Amber 500
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans antialiased min-h-screen flex flex-col">
+
+<!-- Encabezado / Navegación -->
+<header class="bg-white shadow-sm sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+        <div class="flex items-center gap-2 cursor-pointer">
+            <i class="fa-solid fa-paw text-primary text-2xl"></i>
+            <span class="font-bold text-xl text-gray-900">Patitas a Casa</span>
+        </div>
+        <nav class="hidden md:flex gap-6">
+            <a th:href="@{/index}" class="text-gray-500 hover:text-primary font-medium transition-colors">Inicio</a>
+            <a href="#" class="text-primary font-medium transition-colors border-b-2 border-primary">Mascotas</a>
+            <a href="#" class="text-gray-500 hover:text-primary font-medium transition-colors">Nosotros</a>
+            <a href="#" class="text-gray-500 hover:text-primary font-medium transition-colors">Contacto</a>
+        </nav>
+    </div>
+</header>
+
+<!-- Sección Hero con Búsqueda y Botones de Filtro -->
+<section class="bg-indigo-50 py-12 px-4 sm:px-6 text-center">
+    <div class="max-w-3xl mx-auto">
+        <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4 tracking-tight">
+            Encuentra a tu compañero <span class="text-primary">perfecto</span>
+        </h1>
+        <p class="text-lg text-gray-600 mb-8">
+            Descubre las mascotas registradas en nuestro centro esperando un hogar lleno de amor. ¿Listo para cambiar una vida?
+        </p>
+
+        <!-- Barra de Búsqueda -->
+        <div class="relative max-w-lg mx-auto shadow-md rounded-full bg-white flex items-center p-1 border border-gray-200 mb-6">
+            <i class="fa-solid fa-search text-gray-400 ml-4"></i>
+            <input type="text" id="searchInput" placeholder="Buscar por nombre, raza o especie..."
+                   class="w-full py-3 px-4 outline-none rounded-full text-gray-700 bg-transparent">
+        </div>
+
+        <!-- Botones de Filtro por Especie / Categoría -->
+        <div class="flex flex-wrap justify-center gap-2 max-w-xl mx-auto">
+            <button type="button" onclick="setFilter(this, 'todos')"
+                    class="filter-btn bg-primary text-white px-5 py-2 rounded-full font-semibold text-sm transition-all shadow-sm">
+                <i class="fa-solid fa-paw mr-1"></i> Todos
+            </button>
+            <button type="button" onclick="setFilter(this, 'perro')"
+                    class="filter-btn bg-white text-gray-600 hover:bg-gray-100 border border-gray-200 px-5 py-2 rounded-full font-semibold text-sm transition-all shadow-sm">
+                <i class="fa-solid fa-dog mr-1"></i> Perros
+            </button>
+            <button type="button" onclick="setFilter(this, 'gato')"
+                    class="filter-btn bg-white text-gray-600 hover:bg-gray-100 border border-gray-200 px-5 py-2 rounded-full font-semibold text-sm transition-all shadow-sm">
+                <i class="fa-solid fa-cat mr-1"></i> Gatos
+            </button>
+            <button type="button" onclick="setFilter(this, 'ave')"
+                    class="filter-btn bg-white text-gray-600 hover:bg-gray-100 border border-gray-200 px-5 py-2 rounded-full font-semibold text-sm transition-all shadow-sm">
+                <i class="fa-solid fa-feather mr-1"></i> Aves
+            </button>
+            <button type="button" onclick="setFilter(this, 'otros')"
+                    class="filter-btn bg-white text-gray-600 hover:bg-gray-100 border border-gray-200 px-5 py-2 rounded-full font-semibold text-sm transition-all shadow-sm">
+                <i class="fa-solid fa-shapes mr-1"></i> Otros
+            </button>
+        </div>
+    </div>
+</section>
+
+<!-- Contenido Principal -->
+<main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
+
+    <!-- Cuadrícula de Mascotas renderizada desde MySQL con Thymeleaf -->
+    <div id="petsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+
+        <!-- Iteración de Thymeleaf sobre la lista de MySQL -->
+        <div th:each="pet : ${mascotas}"
+             class="pet-card bg-white rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden flex flex-col group border border-gray-100"
+             th:data-name="${pet.nombre}" th:data-species="${pet.especie}" th:data-breed="${pet.raza}">
+
+            <!-- SECCIÓN DE IMAGEN -->
+            <div class="relative h-56 bg-indigo-100 flex items-center justify-center overflow-hidden">
+
+                <!-- Si la mascota TIENE una URL de imagen, la muestra -->
+                <img th:if="${pet.imagen != null and !pet.imagen.isEmpty()}"
+                     th:src="${pet.imagen}"
+                     alt="Foto de la mascota"
+                     class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+
+                <!-- Si la mascota NO TIENE imagen, muestra la huellita por defecto -->
+                <i th:unless="${pet.imagen != null and !pet.imagen.isEmpty()}"
+                   class="fa-solid fa-paw text-6xl text-indigo-300 group-hover:scale-110 transition-transform duration-500"></i>
+
+                <div class="absolute top-3 right-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-gray-700 flex items-center shadow-sm">
+                    <span th:text="${pet.especie}">Especie</span>
+                </div>
+            </div>
+
+            <!-- Contenido -->
+            <div class="p-5 flex-grow flex flex-col">
+                <div class="flex justify-between items-start mb-2">
+                    <h3 class="text-xl font-bold text-gray-900" th:text="${pet.nombre}">Nombre</h3>
+                    <span class="text-sm font-medium text-blue-500 bg-blue-50 px-2 py-1 rounded-md" th:text="${pet.sexo}">
+                        Macho
+                    </span>
+                </div>
+
+                <p class="text-sm text-gray-500 font-medium mb-1">
+                    <i class="fa-solid fa-tag text-gray-400 mr-1"></i> <span th:text="${pet.raza}">Raza</span>
+                </p>
+                <p class="text-sm text-gray-500 font-medium mb-3">
+                    <i class="fa-solid fa-calendar text-gray-400 mr-1"></i> Edad: <span th:text="${pet.edad}">Edad</span> | Tamaño: <span th:text="${pet.tamano}">Tamaño</span>
+                </p>
+
+                <!-- Estado dinámico -->
+                <p class="text-gray-600 text-sm mb-4 flex-grow">
+                    Estado:
+                    <strong th:classappend="${pet.estadoAdopcion == 'Disponible'} ? 'text-emerald-600' : 'text-red-500'"
+                            th:text="${pet.estadoAdopcion}">Disponible</strong>
+                </p>
+
+                <!-- Si está disponible: Muestra el botón de adoptar -->
+                <div th:if="${pet.estadoAdopcion == 'Disponible'}">
+                    <button type="button"
+                            th:onclick="openModal([[${pet.idMascota}]], [[${pet.nombre}]], [[${pet.especie}]], [[${pet.raza}]], [[${pet.edad}]], [[${pet.sexo}]])"
+                            class="w-full py-2.5 rounded-xl border-2 border-primary text-primary font-semibold hover:bg-primary hover:text-white transition-colors flex justify-center items-center gap-2">
+                        <i class="fa-solid fa-heart"></i> Conóceme / Adoptar
+                    </button>
+                </div>
+
+                <!-- Si NO está disponible: Muestra botón bloqueado -->
+                <div th:if="${pet.estadoAdopcion != 'Disponible'}">
+                    <button disabled
+                            class="w-full py-2.5 rounded-xl bg-gray-100 text-gray-400 font-semibold cursor-not-allowed flex justify-center items-center gap-2 border border-gray-200">
+                        <i class="fa-solid fa-ban"></i> No disponible
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Estado de "No hay mascotas" -->
+    <div th:if="${mascotas == null or mascotas.empty}" class="text-center py-12">
+        <i class="fa-regular fa-face-frown text-5xl text-gray-300 mb-4"></i>
+        <h3 class="text-xl font-semibold text-gray-700">No hay mascotas registradas por el momento</h3>
+        <p class="text-gray-500 mt-2">Vuelve pronto para conocer nuevos amigos en adopción.</p>
+    </div>
+
+</main>
+
+<!-- VENTANA MODAL DE ADOPCIÓN -->
+<div id="petModal" class="fixed inset-0 z-50 hidden bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-white rounded-3xl shadow-2xl max-w-lg w-full overflow-hidden transform transition-all p-6 sm:p-8">
+        <div class="flex justify-between items-start mb-4">
+            <div>
+                <h2 id="modalName" class="text-2xl font-extrabold text-gray-900">Nombre</h2>
+                <p id="modalBreedAge" class="text-sm font-medium text-gray-500 mt-1">Raza • Edad</p>
+            </div>
+            <button type="button" onclick="closeModal()" class="text-gray-400 hover:text-gray-600 p-2">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+        </div>
+
+        <!-- Formulario de Solicitud de Adopción -->
+        <form id="adoptionForm" action="/enviar-solicitud" method="POST" class="space-y-4 pt-4 border-t border-gray-100">
+            <input type="hidden" id="modalPetId" name="idMascota">
+
+            <div>
+                <label class="block text-xs font-bold text-gray-600 uppercase mb-1">¿Por qué deseas adoptarle?</label>
+                <textarea name="motivo" rows="3" required placeholder="Cuéntanos un poco sobre tu hogar..."
+                          class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none text-sm"></textarea>
+            </div>
+
+            <div class="flex justify-end gap-3 pt-2">
+                <button type="button" onclick="closeModal()" class="px-5 py-2.5 rounded-xl border border-gray-200 font-semibold text-gray-600 hover:bg-gray-50">
+                    Cancelar
+                </button>
+                <button type="submit" class="px-6 py-2.5 rounded-xl bg-primary text-white font-semibold hover:bg-primary/90 shadow-lg">
+                    Enviar Solicitud
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Pie de página -->
+<footer class="bg-gray-900 text-gray-300 py-8 text-center mt-auto">
+    <p>© 2026 Patitas a Casa - Proyecto Estudiantil Spring Boot.</p>
+</footer>
+
+<!-- Script de control para Modal, Filtro por Categorías y Búsqueda en tiempo real -->
+<script>
+    let currentCategory = 'todos';
+
+    function openModal(id, nombre, especie, raza, edad, sexo) {
+        document.getElementById('modalPetId').value = id;
+        document.getElementById('modalName').innerText = nombre;
+        document.getElementById('modalBreedAge').innerText = `${especie || ''} - ${raza || ''} • ${edad || ''}`;
+        document.getElementById('petModal').classList.remove('hidden');
+    }
+
+    function closeModal() {
+        document.getElementById('petModal').classList.add('hidden');
+    }
+
+    // Cambiar filtro activo de categoría
+    function setFilter(button, category) {
+        currentCategory = category;
+
+        // Actualizar diseño activo de los botones
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.classList.remove('bg-primary', 'text-white');
+            btn.classList.add('bg-white', 'text-gray-600', 'hover:bg-gray-100', 'border', 'border-gray-200');
+        });
+
+        button.classList.remove('bg-white', 'text-gray-600', 'hover:bg-gray-100', 'border', 'border-gray-200');
+        button.classList.add('bg-primary', 'text-white');
+
+        filterPets();
+    }
+
+    // Filtrar tarjetas combinando Búsqueda por Texto y Botón de Categoría
+    function filterPets() {
+        const term = document.getElementById('searchInput').value.toLowerCase();
+        const cards = document.querySelectorAll('.pet-card');
+
+        cards.forEach(card => {
+            const name = (card.getAttribute('data-name') || '').toLowerCase();
+            const species = (card.getAttribute('data-species') || '').toLowerCase();
+            const breed = (card.getAttribute('data-breed') || '').toLowerCase();
+
+            // Comprobar si coincide con la categoría seleccionada
+            let matchesCategory = false;
+            if (currentCategory === 'todos') {
+                matchesCategory = true;
+            } else if (currentCategory === 'otros') {
+                matchesCategory = !['perro', 'gato', 'ave'].some(cat => species.includes(cat));
+            } else {
+                matchesCategory = species.includes(currentCategory);
+            }
+
+            // Comprobar si coincide con la búsqueda de texto
+            const matchesSearch = name.includes(term) || species.includes(term) || breed.includes(term);
+
+            // Mostrar u ocultar la tarjeta
+            if (matchesCategory && matchesSearch) {
+                card.style.display = 'flex';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    }
+
+    // Evento al escribir en el campo de búsqueda
+    document.getElementById('searchInput').addEventListener('input', filterPets);
+</script>
+</body>
+</html>

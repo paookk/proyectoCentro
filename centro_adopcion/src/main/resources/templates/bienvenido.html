@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Panel de Administración</title>
+    <link href="https://fonts.googleapis.com/css?family=Fredoka:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/style.css}">
+</head>
+<body class="admin-body">
+<!-- Barra superior -->
+<header class="admin-header">
+    Centro de Adopción | Admin
+</header>
+
+<div class="admin-container">
+    <h1 class="admin-welcome">
+        BIENVENIDO/A,<br>
+        <span th:text="${nombreUsuario != null ? nombreUsuario : 'Administrador'}">[Nombre]</span>
+    </h1>
+    <h2 class="admin-section-title"> Gestión del Sistema</h2>
+
+    <!-- Cuadrícula de tarjetas conectada a tus rutas de Spring Boot -->
+    <div class="admin-grid">
+
+        <a href="/admin/mascotas" style="text-decoration: none; color: inherit;">
+            <div class="admin-card">
+                <div class="card-icon-box">
+                    <span class="card-title" style="color: #a83232;">Mascotas</span>
+                    <div class="card-icon">🐶</div>
+                </div>
+                <div class="card-text">Registrar, editar y gestionar el catálogo de animales.</div>
+            </div>
+        </a>
+
+        <a href="/admin/solicitudes" style="text-decoration: none; color: inherit;">
+            <div class="admin-card">
+                <div class="card-icon-box">
+                    <span class="card-title" style="color: #4a2b7a;">Solicitudes</span>
+                    <div class="card-icon">📄</div>
+                </div>
+                <div class="card-text">Revisar y aprobar las solicitudes de adopción recibidas.</div>
+            </div>
+        </a>
+
+        <a href="/admin/usuarios" style="text-decoration: none; color: inherit;">
+            <div class="admin-card">
+                <div class="card-icon-box">
+                    <span class="card-title" style="color: #a83232;">Adoptantes</span>
+                    <div class="card-icon">👥</div>
+                </div>
+                <div class="card-text">Consultar la información y correos de los usuarios registrados.</div>
+            </div>
+        </a>
+
+        <a href="/admin/reportes" style="text-decoration: none; color: inherit;">
+            <div class="admin-card">
+                <div class="card-icon-box">
+                    <span class="card-title" style="color: #4a2b7a;">Estadísticas</span>
+                    <div class="card-icon">📊</div>
+                </div>
+                <div class="card-text">Ver estadísticas de adopciones y estados de la base de datos.</div>
+            </div>
+        </a>
+
+    </div>
+</div>
+
+<!-- Figura de la esquina inferior derecha con el botón -->
+<div class="admin-footer-shape">
+    <a href="/index" class="btn-cerrar">Cerrar Sesión</a>
+</div>
+</body>
+</html>

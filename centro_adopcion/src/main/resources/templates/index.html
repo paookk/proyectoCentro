@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión - Centro de Adopción</title>
+
+    <!-- Fuentes personalizadas -->
+    <link href="https://fonts.googleapis.com/css?family=Fredoka:wght@400;500;600&family=Pacifico&display=swap" rel="stylesheet">
+
+    <!-- Enlace a la hoja de estilos compartida -->
+    <link rel="stylesheet" th:href="@{/style.css}">
+
+    <style>
+        /* Estilo para el selector de rol integrado con el tema */
+        select {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 8px;
+            border: 3px solid #222;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.1rem;
+            outline: none;
+            background-color: white;
+            cursor: pointer;
+        }
+
+        /* Estilo del mensaje de error ajustado al diseño */
+        .error-message {
+            background-color: #fee2e2;
+            color: #dc2626;
+            padding: 10px;
+            border-radius: 6px;
+            border: 2px solid #f87171;
+            margin-top: 15px;
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Triángulos decorativos de las esquinas -->
+<div class="esquina-izq"></div>
+<div class="esquina-der"></div>
+
+<div class="page-wrapper">
+    <h2 class="top-title">Centro de Adopciones</h2>
+    <h1 class="main-title">Patitas a Casa</h1>
+
+    <div class="login-card">
+        <h2>INICIO DE SESIÓN</h2>
+
+        <!-- Formulario que envía los datos por POST a la ruta /login -->
+        <form th:action="@{/login}" method="post">
+
+            <div class="form-row">
+                <div class="input-group">
+                    <label for="nombre">USUARIO (NOMBRE)</label>
+                    <input type="text" id="nombre" name="nombre" placeholder="Ingresa tu usuario" required />
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="input-group">
+                    <label for="password">CONTRASEÑA</label>
+                    <input type="password" id="password" name="password" placeholder="Ingresa tu contraseña" required />
+                </div>
+            </div>
+
+            <!-- Selector de tipo de cuenta -->
+            <div class="form-row">
+                <div class="input-group">
+                    <label for="rol">INGRESAR COMO</label>
+                    <select id="rol" name="rol" required>
+                        <option value="ADOPTANTE">Adoptante (Ver mascotas)</option>
+                        <option value="ADMIN">Administrador</option>
+                    </select>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-entrar">Entrar</button>
+        </form>
+
+        <!-- Enlace para ir a la pantalla de registro -->
+        <a th:href="@{/registro}" class="link-registro">¿No tienes cuenta? Regístrate</a>
+
+        <!-- Muestra un mensaje de error si las credenciales fallan -->
+        <div th:if="${error}" class="error-message">
+            <span th:text="${error}">Error al iniciar sesión</span>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

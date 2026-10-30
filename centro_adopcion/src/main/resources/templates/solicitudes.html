@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Solicitudes - Centro de Adopción</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: #f1f5f9;
+            color: #334155;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Barra superior de navegación */
+        .navbar {
+            background-color: #1e293b;
+            color: #ffffff;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar .brand {
+            font-size: 20px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #38bdf8;
+            text-decoration: none;
+        }
+
+        .btn-logout {
+            background-color: #ef4444;
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            transition: background-color 0.2s;
+        }
+
+        .btn-logout:hover {
+            background-color: #dc2626;
+        }
+
+        /* Contenido Principal */
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+            width: 100%;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .page-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #0f172a;
+        }
+
+        .btn-primary {
+            background-color: #64748b;
+            color: white;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .btn-primary:hover {
+            background-color: #475569;
+        }
+
+        /* Tarjeta de la Tabla de Solicitudes */
+        .card-table {
+            background-color: #ffffff;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f8fafc;
+            color: #475569;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            padding: 16px 20px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        td {
+            padding: 16px 20px;
+            font-size: 14px;
+            color: #334155;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover {
+            background-color: #f8fafc;
+        }
+
+        /* Badges de Estado */
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .badge-pendiente {
+            background-color: #fef3c7;
+            color: #d97706;
+        }
+
+        .badge-aprobada {
+            background-color: #d1fae5;
+            color: #059669;
+        }
+
+        .badge-rechazada {
+            background-color: #fee2e2;
+            color: #dc2626;
+        }
+
+        /* Botones de Acción */
+        .btn-action {
+            text-decoration: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-right: 6px;
+            display: inline-block;
+            transition: opacity 0.2s;
+        }
+
+        .btn-action:hover {
+            opacity: 0.85;
+        }
+
+        .btn-approve {
+            background-color: #10b981;
+            color: white;
+        }
+
+        .btn-reject {
+            background-color: #ef4444;
+            color: white;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #64748b;
+            font-size: 15px;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+<!-- Navegación Superior -->
+<nav class="navbar">
+    <a th:href="@{/admin/dashboard}" class="brand">
+        🐾 Centro Adopción | Admin
+    </a>
+    <a th:href="@{/index}" class="btn-logout">Cerrar sesión</a>
+</nav>
+
+<!-- Área de Contenido -->
+<main class="container">
+
+    <div class="page-header">
+        <h1 class="page-title">Gestión de Solicitudes de Adopción</h1>
+        <a th:href="@{/admin/dashboard}" class="btn-primary">⬅ Volver al Dashboard</a>
+    </div>
+
+    <!-- Sección de la Tabla de Solicitudes -->
+    <div class="card-table">
+        <table>
+            <thead>
+            <tr>
+                <th>ID Solicitud</th>
+                <th>ID Mascota</th>
+                <th>ID Adoptante</th>
+                <th>Fecha</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- Bucle de Thymeleaf para recorrer la lista de solicitudes desde MySQL -->
+            <tr th:if="${solicitudes != null and !solicitudes.empty}" th:each="s : ${solicitudes}">
+                <td th:text="${s.idAdopcion}">1</td>
+                <td th:text="${s.idMascota}">1</td>
+                <td th:text="${s.idAdoptante}">1</td>
+                <td th:text="${s.fecha}">2026-10-30</td>
+                <td>
+                    <span class="badge"
+                          th:classappend="${s.estadoSolicitud == 'Aprobada'} ? 'badge-aprobada' : (${s.estadoSolicitud == 'Rechazada'} ? 'badge-rechazada' : 'badge-pendiente')"
+                          th:text="${s.estadoSolicitud}">Pendiente</span>
+                </td>
+                <td>
+                    <a th:href="@{/admin/solicitudes/aprobar/{id}(id=${s.idAdopcion})}" class="btn-action btn-approve">Aprobar</a>
+                    <a th:href="@{/admin/solicitudes/rechazar/{id}(id=${s.idAdopcion})}" class="btn-action btn-reject">Rechazar</a>
+                </td>
+            </tr>
+            <!-- Mensaje por si la tabla está vacía -->
+            <tr th:if="${solicitudes == null or solicitudes.empty}">
+                <td colspan="6" class="empty-state">No hay solicitudes de adopción registradas por el momento.</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</main>
+
+</body>
+</html>
